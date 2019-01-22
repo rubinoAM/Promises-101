@@ -42,7 +42,12 @@ moviePromise.then((resolveData)=>{
         });
     });
 }).then((actorData)=>{
-    console.log(actorData);
+    const id = actorData.cast[0].id;
+    const peopleUrl = `${apiBaseUrl}/person/${id}?api_key=${apiKey}`;
+    request.get(peopleUrl,(err,response,body)=>{
+        const parsedBody = JSON.parse(body);
+        console.log(parsedBody);
+    });
 }).catch((rejectData)=>{
     console.log("ERROR");
     console.log(rejectData);
