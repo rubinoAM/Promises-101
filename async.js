@@ -14,3 +14,33 @@ function getNowPlaying(){
         });
     })
 }
+
+function getCast(movieId){
+    return new Promise((resolve,reject)=>{
+        const castUrl = `${apiBaseUrl}/movie/${movieId}/credits?api_key=${apiKey}`;
+        request.get(castUrl,(err,response,body)=>{
+            const parsedBody = JSON.parse(body);
+            resolve(parsedBody);
+        });
+    })
+}
+
+function getPerson(personId){
+    return new Promise((resolve,reject)=>{
+        const personUrl = `${apiBaseUrl}/person/${personId}?api_key=${apiKey}`;
+        request.get(personUrl,(err,response,body)=>{
+            const parsedBody = JSON.parse(body);
+            resolve(parsedBody);
+        });
+    })
+}
+
+async function run(){   //async in front of "function" means "await" is coming
+    const movieData = await getNowPlaying();
+    //console.log(movieData); Waits until the line before is finished before running this
+    const castData = await getCast(movieData.results[0].id);
+    const personData = await getPerson(castData.cast[0].id);
+    console.log(personData);
+}
+
+run();
