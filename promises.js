@@ -16,15 +16,26 @@ const nowPlayingUrl = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
             // GET: From actor, highest grossing movie
 
 let movieData = '';
-const moviePromise = new Promise(()=>{
+
+/* A promise is a constructor/class
+    Takes 1 arg: a callback
+    Callback takes 2 args: resolve, reject*/
+const moviePromise = new Promise((resolve,reject)=>{
     request.get(nowPlayingUrl,(err,response,body)=>{
+        if(err){
+            reject(err);
+        }
         const parsedBody = JSON.parse(body);
-        // console.log(parsedBody);
-        movieData = parsedBody;
+        //When we call resolve, the outside world knows the promise is done
+        //When we call reject, the outside world knows the promise has failed
+        resolve(parsedBody);
     });
 });
 
-const castUrl = `${apiBaseUrl}/${movieData.results[0].id}/credits?api_key=${apiKey}`;
-request.get(castUrl,(err,response,body)=>{
-
+moviePromise.then((resolveData)=>{
+    console.log(resolveData);
 });
+// const castUrl = `${apiBaseUrl}/${movieData.results[0].id}/credits?api_key=${apiKey}`;
+// request.get(castUrl,(err,response,body)=>{
+
+// });
