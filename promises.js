@@ -15,7 +15,16 @@ const nowPlayingUrl = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
         // GET: From cast data, an individual actor
             // GET: From actor, highest grossing movie
 
-request.get(nowPlayingUrl,(err,response,body)=>{
-    const parsedBody = JSON.parse(body);
-    console.log(parsedBody);
+let movieData = '';
+const moviePromise = new Promise(()=>{
+    request.get(nowPlayingUrl,(err,response,body)=>{
+        const parsedBody = JSON.parse(body);
+        // console.log(parsedBody);
+        movieData = parsedBody;
+    });
+});
+
+const castUrl = `${apiBaseUrl}/${movieData.results[0].id}/credits?api_key=${apiKey}`;
+request.get(castUrl,(err,response,body)=>{
+
 });
