@@ -33,9 +33,17 @@ const moviePromise = new Promise((resolve,reject)=>{
 });
 
 moviePromise.then((resolveData)=>{
-    console.log(resolveData);
+    return new Promise((resolve,reject)=>{
+        const id = resolveData.results[0].id;
+        const castUrl = `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
+        request.get(castUrl,(err,response,body)=>{
+            const parsedBody = JSON.parse(body);
+            resolve(parsedBody);
+        });
+    });
+}).then((actorData)=>{
+    console.log(actorData);
+}).catch((rejectData)=>{
+    console.log("ERROR");
+    console.log(rejectData);
 });
-// const castUrl = `${apiBaseUrl}/${movieData.results[0].id}/credits?api_key=${apiKey}`;
-// request.get(castUrl,(err,response,body)=>{
-
-// });
