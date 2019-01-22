@@ -37,8 +37,7 @@ function getPerson(personId){
 
 async function run(){   //async in front of "function" means "await" is coming
     const movieData = await getNowPlaying();
-    //console.log(movieData); Waits until the line before is finished before running this
-    const castData = await getCast(movieData.results[0].id);
+    const castData = await getCast(movieData.results[0].id); //Waits until the line before is finished before running this
     const personData = await getPerson(castData.cast[0].id);
     console.log(personData);
 }
